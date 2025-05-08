@@ -1,1 +1,33 @@
-first file
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+df=pd.read_csv('/content/INFY.NS.csv')
+df['Date'] = pd.to_datetime(df['Date'])
+
+df = df.sort_values('Date')
+
+# Filter the last 1 year of data
+last_date = df['Date'].min()
+one_year_ago = last_date + pd.DateOffset(years=1)
+one_year_data = df[df['Date'] <= one_year_ago]
+
+avg_close = one_year_data['Close'].mean()
+# Plotting
+plt.figure(figsize=(14, 6))
+plt.plot(one_year_data['Date'], one_year_data['Close'], label='Close Price', color='green')
+
+plt.axhline(y=avg_close, color='red', linestyle='--', label=f'Average = {avg_close:.2f}')
+
+
+# Format x-axis to show month names
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(interval=1))  # Every month
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%b'))     # Show as Jan, Feb, etc.
+
+plt.title("Stock Closing Price - Last 1 Year")
+plt.xlabel("Month")
+plt.ylabel("Closing Price")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
