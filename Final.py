@@ -135,12 +135,3 @@ with st.expander("📊 View Full Prediction Chart"):
     ax.legend()
     st.pyplot(fig)
 
-# --- METRICS ---
-st.markdown('<div class="section">', unsafe_allow_html=True)
-st.subheader("📈 Model Performance")
-col1, col2 = st.columns(2)
-with col1:
-    st.metric("📉 Mean Squared Error", f"{mean_squared_error(y_test, y_pred):.2f}")
-with col2:
-    st.metric("📊 R-squared", f"{r2_score(y_test, y_pred):.2f}")
-st.markdown('</div>', unsafe_allow_html=True)
